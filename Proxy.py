@@ -75,6 +75,11 @@ class Proxy(Thread):
             self.ctp.start()
             self.pts.start()
 
+    def close(self):
+        super()._stop()
+        super()._delete()
+        print(super().isAlive())
+
     def getClientUid(self):
         return self.ctpuid
 
@@ -135,7 +140,7 @@ if __name__ == "__main__":
                 else:
                     if ("-ca" in cmd):
                         for client in client_servers:
-                            client._delete()
+                            client.close()
                             client_servers.remove(clients)
                         print("[> Closed all open clients")
                     if ("-ci" in cmd):
@@ -146,7 +151,7 @@ if __name__ == "__main__":
                             len_pre = len(client_servers)
                             for client in client_servers:
                                 if (str(client.getClientUid()) == cmd[index + 1]):
-                                    client._delete()
+                                    client.close()
                                     client_servers.remove(client)
                             if (len_pre == len(client_servers)):
                                 print("Error: No open client with id: {}".format(cmd[index+1]))
@@ -156,7 +161,7 @@ if __name__ == "__main__":
                     print("Error: Command format is \"server <flags>\"")
                 else:
                     if ("-c" in cmd):
-                        master_server._delete()
+                        master_server.close()
                         print("[> Closed active server connection")
             elif (cmd[0] == "clientids"):
                 if (len(client_servers) < 1):
