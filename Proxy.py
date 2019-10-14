@@ -137,7 +137,7 @@ if __name__ == "__main__":
             elif (cmd[0] == "help"):
                 print("--Commands--")
                 for key, val in cmds.items():
-                    log.info("[*] {} :: {}".format(key, val))
+                    log.info("{} :: {}".format(key, val))
                 print("--Commands--")
             elif (cmd[0] == "setserver"):
                 if (len(cmd) != 4):
@@ -182,7 +182,7 @@ if __name__ == "__main__":
                     if ("-i" in cmd):
                         index = cmd.index("-i")
                         if (index >= len(cmd) - 1):
-                            log.warn("Error: \"-ci\" flag must have an id after it")
+                            log.warn("Error: \"-i\" flag must have an id after it")
                         else:
                             for client in client_servers:
                                 if (str(client.getClientUid()) == cmd[index + 1]):
