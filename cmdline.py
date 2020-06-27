@@ -1,17 +1,18 @@
 from pwn import *
+import Proxy
 
 class logging:
 
-    def status(msg):
+    def status(msg: str) -> None:
         print("[" + text.magenta("x") + "] " + msg)
 
-    def error(msg):
+    def error(msg: str) -> None:
         print("[" + text.on_red("Error") + "] " + str(msg))
 
-    def listelem(marker, msg):
+    def listelem(marker: str, msg: str) -> None:
         print("(" + text.bold_blue(marker) + ") " + str(msg))
 
-    def listinfo(marker, msg):
+    def listinfo(marker: str, msg: str) -> None:
         print("(" + text.bold_green(marker) + ") " + str(msg))
 
 cmds = {"quit/exit": "Close the proxy",
@@ -25,8 +26,8 @@ cmds = {"quit/exit": "Close the proxy",
 def cli(master_server, client_servers):
     while True:
         try:
-            cmd = input("$ ")
-            cmd = cmd.split(" ")
+            cmd = input("$ ").decode("utf-8")
+            cmd = list(map(lambda s: s.replace("\n", ""), cmd.split(" ")))
             if (cmd[0] == "quit" or cmd[0] == "exit"):
                 os._exit(0)
             elif (cmd[0] == "help"):
@@ -132,4 +133,5 @@ def cli(master_server, client_servers):
             else:
                 log.warn("Error: Invalid command, type \"help\" for a list of commands")
         except Exception as e:
+            print(e.message)
             logging.error(e)
